@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "eflwendlewnjdoiew.md",
+                "file": "Trail/Just trying out.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "eflwendlewnjdoiew"
+              "title": "Just trying out"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "eflwendlewnjdoiew.md",
+                "file": "Trail/Just trying out.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for eflwendlewnjdoiew"
+              "title": "Backlinks for Just trying out"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "eflwendlewnjdoiew.md",
+                "file": "Trail/Just trying out.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from eflwendlewnjdoiew"
+              "title": "Outgoing links from Just trying out"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "eflwendlewnjdoiew.md",
+                "file": "Trail/Just trying out.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of eflwendlewnjdoiew"
+              "title": "Outline of Just trying out"
             }
           }
         ]
@@ -185,7 +185,8 @@
   },
   "active": "caeed97f5b040ff7",
   "lastOpenFiles": [
-    "Untitled",
-    "eflwendlewnjdoiew.md"
+    "eflwendlewnjdoiew.md",
+    "Trail/Just trying out.md",
+    "Trail"
   ]
 }
