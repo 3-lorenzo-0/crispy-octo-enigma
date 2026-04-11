@@ -180,13 +180,16 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "caeed97f5b040ff7",
+  "active": "1e9f4025db2948a0",
   "lastOpenFiles": [
-    "eflwendlewnjdoiew.md",
+    "Untitled",
+    "Untitled.base",
     "Trail/Just trying out.md",
+    "eflwendlewnjdoiew.md",
     "Trail"
   ]
 }
