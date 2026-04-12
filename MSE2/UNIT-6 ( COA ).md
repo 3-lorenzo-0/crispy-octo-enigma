@@ -111,3 +111,72 @@ Example — verify 11111011 = −5: = −1×128 + 1×64 + 1×32 + 1×16 + 1×8 +
 - Universally adopted in all modern processors and programming languages.
 
 
+**Overflow Detection in Binary Arithmetic**
+
+Overflow occurs in signed binary arithmetic when the result of an operation is too large or too small to be represented in the available number of bits. It happens only with signed numbers and only when adding two numbers of the same sign.
+
+---
+
+**Two Conditions for Overflow**
+
+1. Positive + Positive = Negative (result exceeds +2ⁿ⁻¹−1, so MSB incorrectly becomes 1)
+2. Negative + Negative = Positive (result is below −2ⁿ⁻¹, so MSB incorrectly becomes 0)
+
+---
+
+**Hardware Detection Rule**
+
+Overflow is detected by XORing the carry into the MSB (Cᵢₙ) with the carry out of the MSB (Cₒᵤₜ):
+
+Overflow = Cᵢₙ XOR Cₒᵤₜ
+
+If both carries are the same (both 0 or both 1), no overflow. If they differ, overflow has occurred. This is how ALUs detect overflow in hardware using a single XOR gate.
+
+---
+
+**Example 3 — (+7) + (+4) in 4-bit two's complement**
+
+```
+  0111   (+7)
++ 0100   (+4)
+------
+  1011   (−5 in two's complement — WRONG)
+```
+
+Carry into MSB (bit 3) = 1 Carry out of MSB = 0 Cᵢₙ XOR Cₒᵤₜ = 1 XOR 0 = 1 → Overflow detected ✓
+
+The correct answer is +11, but +11 cannot be represented in 4-bit two's complement (range is −8 to +7). The result wrapped around and appears as −5, which is clearly wrong since two positives cannot sum to a negative.
+
+---
+
+**Example 4 — (−7) + (−4) in 4-bit two's complement**
+
+−7 in 4-bit = 1001, −4 in 4-bit = 1100
+
+```
+  1001   (−7)
++ 1100   (−4)
+------
+ 10101   → discard carry out → 0101 (+5 — WRONG)
+```
+
+Carry into MSB (bit 3) = 1 Carry out of MSB = 1... let's redo carefully:
+
+```
+  1001
++ 1100
+------
+  0101  with carry out = 1
+```
+
+Carry into MSB = 0, Carry out of MSB = 1 Cᵢₙ XOR Cₒᵤₜ = 0 XOR 1 = 1 → Overflow detected ✓
+
+The correct answer is −11, which cannot be represented in 4-bit two's complement (minimum is −8). The result appears as +5, which is clearly wrong since two negatives cannot sum to a positive.
+
+---
+
+**Opposite Sign Rule**
+
+Overflow can never occur when adding two numbers of opposite signs. If one operand is positive and the other is negative, the true result is always closer to zero than either operand, so it always fits within the representable range. No XOR check is needed in this case.
+
+
