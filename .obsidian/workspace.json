@@ -11,10 +11,14 @@
             "id": "caeed97f5b040ff7",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Hello.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Hello"
             }
           }
         ]
@@ -180,8 +184,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "1e9f4025db2948a0",
+  "active": "caeed97f5b040ff7",
   "lastOpenFiles": [
+    "Hello.md",
     "Untitled",
     "Untitled.base",
     "Trail/Just trying out.md",
