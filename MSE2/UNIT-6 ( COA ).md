@@ -179,4 +179,129 @@ The correct answer is −11, which cannot be represented in 4-bit two's compleme
 
 Overflow can never occur when adding two numbers of opposite signs. If one operand is positive and the other is negative, the true result is always closer to zero than either operand, so it always fits within the representable range. No XOR check is needed in this case.
 
+---
 
+**Binary Addition and Subtraction**
+
+Binary arithmetic operates on the same principles as decimal arithmetic but uses only two digits — 0 and 1. All subtraction is performed using addition of the two's complement, so a CPU needs only one adder circuit.
+
+---
+
+**Four Rules of Binary Addition**
+
+- 0 + 0 = 0, carry 0
+- 0 + 1 = 1, carry 0
+- 1 + 0 = 1, carry 0
+- 1 + 1 = 0, carry 1
+
+---
+
+**Example 1 — Multi-bit addition with carry propagation**
+
+Add 1011 (11) + 1101 (13):
+
+```
+  Carry:  1 1 1 0
+           1 0 1 1   (11)
+         + 1 1 0 1   (13)
+         --------
+          1 1 0 0 0  (24)
+```
+
+Starting from LSB: 1+1=0 carry 1, 1+0+1=0 carry 1, 0+1+1=0 carry 1, 1+1+1=1 carry 1. Final carry gives the 5th bit. Result = 11000 = 24 ✓
+
+---
+
+**Example 2 — Signed addition, no overflow (+3)+(+4) in 8-bit**
+
+```
+  00000011   (+3)
++ 00000100   (+4)
+----------
+  00000111   (+7)
+```
+
+MSB remains 0, result is positive and correct. No overflow since positive + positive = positive.
+
+---
+
+**Example 3 — Signed addition with overflow (+7)+(+4) in 4-bit**
+
+```
+  0111   (+7)
++ 0100   (+4)
+------
+  1011   (−5 in two's complement — WRONG)
+```
+
+Two positive numbers produced a negative result. This is overflow — +11 exceeds the 4-bit range of −8 to +7. Detected by Cᵢₙ XOR Cₒᵤₜ at MSB = 1.
+
+---
+
+**Binary Subtraction Rule**
+
+Instead of borrowing (which requires extra hardware), subtraction is performed as:
+
+A − B = A + (two's complement of B)
+
+Two's complement of B = invert all bits of B, then add 1.
+
+If a carry is produced out of the MSB, it is simply discarded. The remaining n bits give the correct result.
+
+---
+
+**Subtraction Example 1 — (7) − (3) in 8-bit**
+
+Step 1: Two's complement of 3
+
+- +3 = 00000011
+- Invert = 11111100
+- Add 1 = 11111101 (this is −3)
+
+Step 2: Add
+
+```
+  00000111   (+7)
++ 11111101   (−3)
+----------
+ 100000100   
+```
+
+Step 3: Carry out of MSB = 1, discard it. Result = 00000100 = +4 ✓
+
+7 − 3 = 4, confirmed correct.
+
+---
+
+**Subtraction Example 2 — (3) − (7) in 8-bit**
+
+Step 1: Two's complement of 7
+
+- +7 = 00000111
+- Invert = 11111000
+- Add 1 = 11111001 (this is −7)
+
+Step 2: Add
+
+```
+  00000011   (+3)
++ 11111001   (−7)
+----------
+  11111100
+```
+
+Step 3: No carry out of MSB. Result = 11111100.
+
+Step 4: Convert 11111100 to decimal (it is negative since MSB=1):
+
+- Invert = 00000011
+- Add 1 = 00000100 = 4
+- So result = −4 ✓
+
+3 − 7 = −4, confirmed correct.
+
+---
+
+**Carry Discard Rule**
+
+When the result of adding two n-bit numbers produces a carry out of the MSB, that carry is discarded and the remaining n bits are the correct answer — provided no overflow occurred. This happens naturally in fixed-width registers, which simply ignore the extra bit. The carry discard is not an error; it is a built-in property of two's complement arithmetic that makes the system work correctly for both positive and negative results.

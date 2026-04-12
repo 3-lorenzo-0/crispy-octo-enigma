@@ -28,7 +28,7 @@
               "type": "markdown",
               "state": {
                 "file": "MSE2/UNIT-6 ( COA ).md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -199,7 +199,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "1e9f4025db2948a0",
+  "active": "43ae182b1126f9bc",
   "lastOpenFiles": [
     "MSE2/UNIT-5 ( COA ).md",
     "MSE2/UNIT-6 ( COA ).md",
