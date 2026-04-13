@@ -307,3 +307,145 @@ Step 4: Convert 11111100 to decimal (it is negative since MSB=1):
 **Carry Discard Rule**
 
 When the result of adding two n-bit numbers produces a carry out of the MSB, that carry is discarded and the remaining n bits are the correct answer — provided no overflow occurred. This happens naturally in fixed-width registers, which simply ignore the extra bit. The carry discard is not an error; it is a built-in property of two's complement arithmetic that makes the system work correctly for both positive and negative results.
+
+
+
+## Booth's Multiplication Algorithm
+
+---
+
+### Definition
+
+Booth's algorithm is a signed binary multiplication method that works correctly for both positive and negative two's complement numbers without any special sign handling. It uses three operations — add, subtract, and arithmetic right shift — on a set of registers, examining two bits of the multiplier at a time to decide what operation to perform. It reduces the number of additions for multipliers with consecutive 1s, making it efficient for hardware implementation.
+
+---
+
+### Registers Required
+
+|Register|Size|Initial Value|Role|
+|---|---|---|---|
+|M|n bits|Multiplicand|Holds the multiplicand, never changes|
+|−M|n bits|2's complement of M|Precomputed, used when subtraction needed|
+|Q|n bits|Multiplier|Multiplier loaded here, product builds here|
+|A|n bits|0000|Accumulator, starts empty, upper half of final product|
+|Q₋₁|1 bit|0|Holds the previous LSB of Q before each shift|
+|n|counter|Word length|Counts how many steps remain|
+
+---
+
+### Algorithm
+
+**Step 1 — Initialise:** Load M, Q, set A = 0, Q₋₁ = 0, n = word length
+
+**Step 2 — Examine the pair (Q₀, Q₋₁)** where Q₀ is the current LSB of Q:
+
+|Q₀|Q₋₁|Action|
+|---|---|---|
+|1|0|A = A − M|
+|0|1|A = A + M|
+|0|0|No operation|
+|1|1|No operation|
+
+**Step 3 — Arithmetic Right Shift** the entire (A, Q, Q₋₁) by 1 bit. The MSB of A is replicated (sign preserved).
+
+**Step 4 — Decrement n** by 1. If n > 0 go back to Step 2. If n = 0 stop.
+
+**Step 5 — Read the result** from (A, Q) combined. A is the upper half, Q is the lower half.
+
+---
+
+### Solved Example — 3 × (−3)
+
+**Given:**
+
+```
+M   = 0011   (+3, multiplicand)
+-M  = 1101   (precomputed 2's complement of M)
+Q   = 1101   (-3, multiplier)
+A   = 0000   (accumulator, starts empty)
+Q₋₁ = 0      (always starts 0)
+n   = 4      (4-bit numbers, so 4 steps)
+```
+
+**Expected answer:** 3 × (−3) = −9
+
+---
+
+**STEP 1**
+
+Q₀ = 1, Q₋₁ = 0 → pair **1, 0** → **Subtract M**
+
+```
+A = 0000 - 0011 = 1101
+```
+
+Arithmetic Right Shift (MSB of A is 1, so replicate 1):
+
+```
+Before shift:  [ 1101 ] [ 1101 ] [ 0 ]
+After shift:   [ 1110 ] [ 1110 ] [ 1 ]
+```
+
+---
+
+**STEP 2**
+
+Q₀ = 0, Q₋₁ = 1 → pair **0, 1** → **Add M**
+
+```
+A = 1110 + 0011 = 10001 → drop carry → 0001
+```
+
+Arithmetic Right Shift (MSB of A is 0, so replicate 0):
+
+```
+Before shift:  [ 0001 ] [ 1110 ] [ 1 ]
+After shift:   [ 0000 ] [ 1111 ] [ 0 ]
+```
+
+---
+
+**STEP 3**
+
+Q₀ = 1, Q₋₁ = 0 → pair **1, 0** → **Subtract M**
+
+```
+A = 0000 - 0011 = 1101
+```
+
+Arithmetic Right Shift (MSB of A is 1, so replicate 1):
+
+```
+Before shift:  [ 1101 ] [ 1111 ] [ 0 ]
+After shift:   [ 1110 ] [ 1111 ] [ 1 ]
+```
+
+---
+
+**STEP 4**
+
+Q₀ = 1, Q₋₁ = 1 → pair **1, 1** → **No operation**
+
+Arithmetic Right Shift (MSB of A is 1, so replicate 1):
+
+```
+Before shift:  [ 1110 ] [ 1111 ] [ 1 ]
+After shift:   [ 1111 ] [ 0111 ] [ 1 ]
+```
+
+---
+
+### Verification
+
+Final Product = (A, Q) = **1111 0111**
+
+Converting 1111 0111 from 8-bit 2's complement to decimal:
+
+```
+-1×128 + 1×64 + 1×32 + 1×16 + 0×8 + 1×4 + 1×2 + 1×1
+= -128 + 64 + 32 + 16 + 0 + 4 + 2 + 1
+= -128 + 119
+= -9 ✓
+```
+
+3 × (−3) = **−9** ✓

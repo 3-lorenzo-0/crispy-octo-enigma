@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MSE2/UNIT-6 ( COA ).md",
-                "mode": "preview",
+                "file": "MSE2/UNIT-5 ( COA ).md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "UNIT-6 ( COA )"
+              "title": "UNIT-5 ( COA )"
             }
           }
         ],
@@ -179,8 +179,19 @@
               "icon": "lucide-list",
               "title": "Outline of Just trying out"
             }
+          },
+          {
+            "id": "f650bb6bf5389036",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -201,8 +212,8 @@
   },
   "active": "43ae182b1126f9bc",
   "lastOpenFiles": [
-    "MSE2/UNIT-5 ( COA ).md",
     "MSE2/UNIT-6 ( COA ).md",
+    "MSE2/UNIT-5 ( COA ).md",
     "Hello.md",
     "MSE2",
     "Untitled.base",
