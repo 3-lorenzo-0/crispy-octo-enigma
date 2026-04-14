@@ -183,3 +183,4 @@ It models real-world decision-making problems where at each step you choose the 
 ---
 ## 4. Numerical Example (5-Stage Graph)
 
+![[Pasted image 20260414081011.png]]
