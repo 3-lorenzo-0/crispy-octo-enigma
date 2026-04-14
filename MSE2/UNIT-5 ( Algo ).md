@@ -348,3 +348,83 @@ m[1,3]=4500m[1,3]=4500
 **Reason:** Three nested loops (chain length → start index → split point) always execute fully regardless of input values.
 
 
+# Traveling Salesman Problem (DP Approach)
+
+## Definition
+
+The Traveling Salesman Problem (TSP) is the problem of finding the **minimum cost tour** that visits each city exactly once and returns to the starting city.
+
+---
+
+##  State Representation (Bitmasking)
+
+We use a DP table:
+
+- **dp[mask][i]**  
+    👉 Minimum cost to visit all cities in `mask` and end at city `i`
+
+Where:
+
+- `mask` = binary representation of visited cities
+- `i` = current city
+
+Example:  
+If there are 4 cities,  
+`mask = 1011` → cities {0,1,3} visited
+
+---
+
+##  Recurrence Relation
+
+![[Pasted image 20260414082631.png]]
+
+👉 Meaning:
+
+- Try reaching city `i` from all possible previous cities `j`
+- Take minimum cost
+
+---
+
+## ✅ Algorithm (Stepwise)
+
+1. Initialize:
+    - dp[[1 << start][start] = 0
+2. For all subsets (mask):
+    - For each city `i` in mask:
+        - Try all previous cities `j`
+3. Update DP using recurrence
+4. Final Answer:
+
+![[Pasted image 20260414082704.png]]
+
+---
+
+## ✅ Example
+
+Consider 4 cities with distance matrix:
+
+||0|1|2|3|
+|---|---|---|---|---|
+|0|0|10|15|20|
+|1|10|0|35|25|
+|2|15|35|0|30|
+|3|20|25|30|0|
+
+👉 Using DP, we compute all subsets and paths.
+
+✔ Optimal tour:
+
+0 → 1 → 3 → 2 → 0
+
+✔ Minimum cost:
+
+10 + 25 + 30 + 15 = 80
+
+---
+
+## ✅ Complexity
+
+- **Time Complexity:** O(n² · 2ⁿ)
+- **Space Complexity:** O(n · 2ⁿ)
+
+
