@@ -352,7 +352,7 @@ m[1,3]=4500m[1,3]=4500
 
 ## Definition
 
-The Traveling Salesman Problem (TSP) is the problem of finding the **minimum cost tour** that visits each city exactly once and returns to the starting city.
+The Traveling Salesman Problem (TSP) requires finding the shortest possible route for a salesman to visit every city exactly once and return to the starting city. The goal is to minimize the total travel distance or cost of the tour.
 
 ---
 
