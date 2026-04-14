@@ -227,3 +227,124 @@ cost[S] = min(2+6, 3+7, 4+7) = min(8, 10, 11) = 8   [next: A]
 |**Average**|O(n + e)|O(n)|
 |**Worst**|O(n²)|O(n)|
 
+
+## **Matrix Chain Multiplication using DP**
+
+### **1. Definition**
+
+Matrix Chain Multiplication finds the **optimal parenthesization** of matrices A1×A2×...×AnA1​×A2​×...×An​ to **minimize scalar multiplications**. Matrix multiplication is associative but different orderings have different costs.
+
+**Given:** Dimensions array pp where matrix AiAi​ has size pi−1×pipi−1​×pi​  
+**Goal:** Find minimum cost to compute the product
+
+---
+
+### **2. Algorithm**
+
+MatrixChainOrder(p)
+1.  n = length(p) - 1
+2.  For i = 1 to n
+3.      m[i,i] = 0
+4.  For L = 2 to n              // L = chain length
+5.      For i = 1 to n-L+1
+6.          j = i + L - 1
+7.          m[i,j] = ∞
+8.          For k = i to j-1
+9.              q = m[i,k] + m[k+1,j] + p[i-1]*p[k]*p[j]
+10.             If q < m[i,j]
+11.                 m[i,j] = q
+12. Return m[1,n]
+
+**Where:**
+
+- `m[i,j]` = minimum cost to multiply Ai...AjAi​...Aj​
+- `L` = chain length
+- `k` = split point
+
+### **3. Example**
+
+**Matrices:** A1(10×30),A2(30×5),A3(5×60)A1​(10×30),A2​(30×5),A3​(5×60)  
+**Dimensions:** p=[10,30,5,60]p=[10,30,5,60]
+
+#### **Step 1: Initialize DP Table**
+
+Diagonal elements = 0 (single matrix costs nothing)
+
+   |  1    2    3
+
+--|----------------
+
+ 1 |  0    
+
+ 2 |       0
+
+ 3 |            0
+
+#### **Step 2: Chain Length L = 2**
+
+**Compute A1A2A1​A2​:**
+
+- Cost = 10×30×5=150010×30×5=1500
+- m[1,2]=1500m[1,2]=1500
+
+**Compute A2A3A2​A3​:**
+
+- Cost = 30×5×60=900030×5×60=9000
+- m[2,3]=9000m[2,3]=9000
+
+
+	|  1     2     3
+
+---|------------------
+
+  1 |  0  1500
+
+ 2 |        0    9000
+
+ 3 |                  0
+
+#### **Step 3: Chain Length L = 3**
+
+**Compute A1A2A3A1​A2​A3​:**
+
+Try k=1k=1: (A1)(A2A3)(A1​)(A2​A3​)  
+q=m[1,1]+m[2,3]+p[0]×p[1]×p[3]q=m[1,1]+m[2,3]+p[0]×p[1]×p[3]  
+q=0+9000+10×30×60=27000q=0+9000+10×30×60=27000
+
+Try k=2k=2: (A1A2)(A3)(A1​A2​)(A3​)  
+q=m[1,2]+m[3,3]+p[0]×p[2]×p[3]q=m[1,2]+m[3,3]+p[0]×p[2]×p[3]  
+q=1500+0+10×5×60=4500q=1500+0+10×5×60=4500 ✓ **Minimum**
+
+m[1,3]=4500m[1,3]=4500
+
+   |  1     2     3
+
+--|------------------
+
+ 1 |  0  1500  4500
+
+ 2 |        0    9000
+
+ 3 |                0
+
+
+---
+
+### **Final Result**
+
+**Minimum Cost = 4500**  
+**Optimal Parenthesization:** (A1A2)A3(A1​A2​)A3​
+
+---
+
+### **4. Complexity Analysis**
+
+|Case|Time Complexity|Space Complexity|
+|---|---|---|
+|**Best**|O(n3)O(n3)|O(n2)O(n2)|
+|**Average**|O(n3)O(n3)|O(n2)O(n2)|
+|**Worst**|O(n3)O(n3)|O(n2)O(n2)|
+
+**Reason:** Three nested loops (chain length → start index → split point) always execute fully regardless of input values.
+
+
