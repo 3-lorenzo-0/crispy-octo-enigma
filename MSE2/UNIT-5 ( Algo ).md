@@ -426,3 +426,45 @@ Best = Average = Worst = O(n² · 2ⁿ), since all subsets are evaluated.
 Best = Average = Worst = O(n · 2ⁿ), due to storage of DP table.
 
 
+# Single Source Shortest Path – **Bellman-Ford Algorithm**
+
+---
+
+##  Definition (Strong & Precise)
+
+The Single Source Shortest Path problem aims to determine the **minimum distance from a given source vertex to all other vertices in a weighted graph**.
+
+The Bellman-Ford Algorithm solves this problem by **iteratively relaxing all edges**, and it is capable of handling **graphs with negative edge weights**, unlike **Dijkstra's Algorithm**.
+
+---
+
+##  Algorithm (Stepwise)
+
+1. Initialize:
+    - Distance of source vertex = 0
+    - Distance of all other vertices = ∞
+2. Repeat **(V − 1) times**:
+    - For every edge (u → v) with weight w:
+        
+        if dist[u] + w < dist[v]  
+            dist[v] = dist[u] + w
+        
+3. Check for negative weight cycle:
+    - For every edge (u → v):
+        
+        if dist[u] + w < dist[v]  
+            report negative cycle
+
+##  Why **Dijkstra's Algorithm** Fails
+
+Dijkstra’s Algorithm assumes that once a node is visited, its shortest path is final.
+
+👉 This assumption breaks when **negative edges exist**.
+
+Example:  
+If a shorter path appears later due to a negative edge, Dijkstra **cannot update it**, leading to incorrect results.
+
+✔ Bellman-Ford avoids this by **relaxing edges multiple times (V−1)**.
+
+![[Pasted image 20260414084141.png]]
+
