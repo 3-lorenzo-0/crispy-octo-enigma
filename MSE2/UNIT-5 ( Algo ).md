@@ -145,8 +145,6 @@ Each value is computed exactly once using the previously stored values. No repea
 
 # Multistage Graph — Complete Explanation (Classic Exam Question)
 
----
-
 ## 1. Definition
 
 A Multistage Graph is a directed, weighted graph where:
@@ -171,25 +169,17 @@ It models real-world decision-making problems where at each step you choose the 
 
 ## 3. Backward Approach — Algorithm
 
-In the backward approach, we compute the minimum cost from each vertex to the sink (destination), moving from the last stage toward the first.
+1. Define: cost[v] = min cost from v to sink t
+           next[v] = next vertex on optimal path
 
-**Define:**
+2. Base: cost[t] = 0
 
-- cost(i, v) = minimum cost from vertex v (in stage i) to the sink t
-- d(i, v) = the decision (next vertex chosen) at vertex v in stage i
+3. Recurrence: For stage j = k-1 downto 1:
+                  For each vertex v in stage j:
+                     cost[v] = min{c(v,u) + cost[u]}  ∀u in stage j+1
+                     next[v] = argmin{u}
 
-**Base Case:**
-
-- cost(k, t) = 0 (at the sink, cost is zero)
-
-**Recurrence:** For each vertex v in stage i (going from stage k−1 down to stage 1):
-
-cost(i, v) = min over all u in stage(i+1) { c(v, u) + cost(i+1, u) }
-
-d(i, v) = the vertex u that gave the minimum above
-
-**Path Reconstruction:** Start from source s → follow d(1,s) → d(2, next) → ... → sink t
-
+4. Reconstruct: s → next[s] → next[next[s]] → ... → t
 ---
 ## 4. Numerical Example (5-Stage Graph)
 
