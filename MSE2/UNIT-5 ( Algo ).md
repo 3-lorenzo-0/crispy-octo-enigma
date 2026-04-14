@@ -143,90 +143,119 @@ Each value is computed exactly once using the previously stored values. No repea
 |DP (Memoization/Tabulation)|`O(n)`|`O(n)`|Each subproblem computed & stored once|
 |**Space-Optimized DP** (Fibonacci only)|`O(n)`|`O(1)`|Keep only last two values instead of full array|
 
-# Multistage Graph — Complete Explanation (Classic Exam Question)
+## Multistage Graph
 
-## 1. Definition
+### Definition
 
-A Multistage Graph is a directed, weighted graph where:
+A multistage graph G = (V, E, w) is a directed weighted graph where the vertex set V is partitioned into k disjoint stages V₁, V₂, …, Vₖ such that every edge (u, v) goes from stage i to stage i+1. Stage 1 contains a single source s and stage k contains a single sink t. The goal is to find the minimum-cost path from s to t.
 
-- The set of vertices is partitioned into k stages: Stage 1, Stage 2, ..., Stage k
-- Edges exist only from a vertex in stage i to a vertex in stage i+1 (no backward edges, no skip edges)
-- There is exactly one source vertex s in Stage 1 and one sink vertex t in Stage k
-- The goal is to find the minimum cost path from s to t passing through exactly one vertex per stage
+The **Forward DP approach** defines:
 
-It models real-world decision-making problems where at each step you choose the best option to move to the next level.
+`cost(i, v)` = minimum cost of a path from vertex v in stage i to the sink t.
 
----
+**Base case:** cost(k, t) = 0
 
-## 2. Properties
+**Recurrence:** cost(i, v) = min over all edges (v, u): { c(v, u) + cost(i+1, u) }
 
-- Every path from source to sink passes through exactly k stages
-- Each edge has an associated cost c(u, v)
-- The problem satisfies both DP properties — optimal substructure and overlapping subproblems
-- The Principle of Optimality applies: the optimal path through stage i depends only on the optimal cost from that stage onward, not on how you reached it
+A decision array d[v] records which next vertex minimizes the cost at each stage, enabling path reconstruction.
 
 ---
 
-## 3. Backward Approach — Algorithm
-
-1. Define: cost[v] = min cost from v to sink t
-           next[v] = next vertex on optimal path
-
-2. Base: cost[t] = 0
-
-3. Recurrence: For stage j = k-1 downto 1:
-                  For each vertex v in stage j:
-                     cost[v] = min{c(v,u) + cost[u]}  ∀u in stage j+1
-                     next[v] = argmin{u}
-
-4. Reconstruct: s → next[s] → next[next[s]] → ... → t
----
-## 4. Numerical Example (5-Stage Graph)
-
-![[Pasted image 20260414081011.png]]
-### **Solution (Backward Approach)**
-
-**Given:** Source=S, Sink=T
-
-**Step 1: Initialize**
-
-cost[T] = 0
-
-**Step 2: Stage 3 → T**
-
-cost[D] = 6 + 0 = 6
-
-cost[E] = 3 + 0 = 3
-
-cost[F] = 5 + 0 = 5
-
-**Step 3: Stage 2 → Stage 3**
-
-cost[A] = min(6+6, 3+3) = min(12, 6) = 6   [next: E]
-
-cost[B] = min(5+6, 4+3, 4+5) = min(11, 7, 9) = 7   [next: E]
-
-cost[C] = min(4+3, 3+5) = min(7, 8) = 7   [next: E]
-
-**Step 4: Stage 1 → Stage 2**
-
-cost[S] = min(2+6, 3+7, 4+7) = min(8, 10, 11) = 8   [next: A]
+![[Pasted image 20260414130637.png]]
 
 ---
-## Result
 
-- **Min Cost:** **8**
-- **Optimal Path:** S → A → E → T
+### Algorithm (Forward DP Approach)
+
+The forward approach computes the minimum cost from each vertex to the sink, working **backward from stage k to stage 1**.
+
+```
+FwdMultistage(G, k, n, c):
+  cost[n] = 0                        // Base case: sink cost = 0
+  for j = n-1 downto 1:
+      cost[j] = INF
+      for each edge (j, l) in E:
+          x = c[j][l] + cost[l]
+          if x < cost[j]:
+              cost[j] = x
+              d[j] = l              // Store optimal next vertex
+
+  // Path Reconstruction
+  path[1] = source (vertex 1)
+  for i = 2 to k:
+      path[i] = d[path[i-1]]
+  return cost[1], path
+```
 
 ---
-### **Complexity**
 
-|Case|Time|Space|
+### Solved Example
+
+**Graph:** 5 stages, 12 vertices. Source = 1, Sink = 12.
+
+**Edges (Stage → Stage):**
+
+- Stage 4→5: (9,12)=4, (10,12)=2, (11,12)=5
+- Stage 3→4: (5,9)=6, (5,10)=5, (6,9)=6, (6,10)=3, (7,10)=4, (8,10)=6, (8,11)=5
+- Stage 2→3: (2,5)=2, (2,6)=4, (3,6)=2, (4,6)=2, (4,7)=7, (4,8)=2
+- Stage 1→2: (1,2)=9, (1,3)=7, (1,4)=3
+
+**Step 1 – Base Case (Stage 5):** cost(12) = 0
+
+**Step 2 – Stage 4:**
+
+|Vertex|Edges to sink|cost|d[]|
+|---|---|---|---|
+|9|9→12: 4+0=4|4|12|
+|10|10→12: 2+0=2|2|12|
+|11|11→12: 5+0=5|5|12|
+
+**Step 3 – Stage 3:**
+
+|Vertex|Options|cost|d[]|
+|---|---|---|---|
+|5|5→9: 6+4=10; 5→10: 5+2=**7** ✓|7|10|
+|6|6→9: 6+4=10; 6→10: 3+2=**5** ✓|5|10|
+|7|7→10: 4+2=**6** ✓|6|10|
+|8|8→10: 6+2=**8** ✓; 8→11: 5+5=10|8|10|
+
+**Step 4 – Stage 2:**
+
+|Vertex|Options|cost|d[]|
+|---|---|---|---|
+|2|2→5: 2+7=9; 2→6: 4+5=9 (tie→5)|9|5|
+|3|3→6: 2+5=**7** ✓|7|6|
+|4|4→6: 2+5=**7** ✓; 4→7: 13; 4→8: 10|7|6|
+
+**Step 5 – Stage 1:**
+
+|Options|cost|d[]|
 |---|---|---|
-|**Best**|O(n + e)|O(n)|
-|**Average**|O(n + e)|O(n)|
-|**Worst**|O(n²)|O(n)|
+|1→2: 9+9=18|—|—|
+|1→3: 7+7=14|—|—|
+|1→4: 3+7=**10** ✓|10|4|
 
+**Path Reconstruction** (following d[] array):
+
+1 → 4 → 6 → 10 → 12
+
+**Minimum Cost = 3 + 2 + 3 + 2 = 10 ✓**
+
+---
+
+### Complexity Analysis
+
+|Case|Time Complexity|Explanation|
+|---|---|---|
+|**Best Case**|O(V + E)|Each vertex and edge processed exactly once|
+|**Average Case**|O(V + E)|No conditional branching — all vertices and edges always examined|
+|**Worst Case**|O(V + E)|Same; cost computation is linear in graph size|
+
+**Space Complexity: O(V)** — only two arrays of size V are needed: the cost array and the decision array d[].
+
+The DP for multistage graphs is **asymptotically optimal** — any correct algorithm must read every edge at least once. Compared to brute force which explores O(nᵏ⁻¹) paths (256 paths for n=4, k=5), the DP solution processes only V + E ≈ 34 operations for the same graph — an exponential improvement.
+
+---
 
 ## **Matrix Chain Multiplication using DP**
 
