@@ -385,7 +385,7 @@ If there are 4 cities,
 
 ---
 
-## ✅ Algorithm (Stepwise)
+##  Algorithm (Stepwise)
 
 1. Initialize:
     - dp[[1 << start][start] = 0
@@ -399,7 +399,7 @@ If there are 4 cities,
 
 ---
 
-## ✅ Example
+##  Example
 
 Consider 4 cities with distance matrix:
 
@@ -417,9 +417,12 @@ Consider 4 cities with distance matrix:
 
 ---
 
-## ✅ Complexity
+##  Complexity
 
-- **Time Complexity:** O(n² · 2ⁿ)
-- **Space Complexity:** O(n · 2ⁿ)
+**Time Complexity:**  
+Best = Average = Worst = O(n² · 2ⁿ), since all subsets are evaluated.
+
+**Space Complexity:**  
+Best = Average = Worst = O(n · 2ⁿ), due to storage of DP table.
 
 
