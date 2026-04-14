@@ -190,3 +190,6 @@ d(i, v) = the vertex u that gave the minimum above
 
 **Path Reconstruction:** Start from source s → follow d(1,s) → d(2, next) → ... → sink t
 
+---
+## 4. Numerical Example (5-Stage Graph)
+
