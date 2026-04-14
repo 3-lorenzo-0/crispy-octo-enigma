@@ -51,3 +51,95 @@
 **Difference between Dijkstra and Bellman-Ford (basic)** Dijkstra uses a greedy approach with a priority queue and works only on graphs with non-negative edge weights. Bellman-Ford uses DP by relaxing all edges repeatedly and handles negative edge weights, but is slower with O(VE) complexity.
 
 **What is edge relaxation?** Edge relaxation is the process of updating the shortest known distance to a vertex. For an edge (u, v) with weight w, if dist[u] + w < dist[v], then dist[v] is updated to dist[u] + w. This is the core operation in both Dijkstra and Bellman-Ford.
+
+---
+
+## Explain Dynamic Programming with properties and example
+
+### 🔹 Definition
+
+**Dynamic Programming (DP)** is an algorithmic paradigm used to solve complex problems by breaking them into simpler, overlapping subproblems. It solves each subproblem only once, stores the result (in an array/table or cache), and reuses it to avoid redundant computations. DP is highly effective for optimization and counting problems.
+
+---
+
+### 🔹 Key Properties
+
+A problem must satisfy **both** properties to be solvable using DP:
+
+1. **Optimal Substructure**  
+    An optimal solution to the problem can be constructed from optimal solutions of its subproblems.  
+    _Example:_ In the shortest path problem, the shortest path from `A → C` passing through `B` consists of the shortest path `A → B` and `B → C`.
+2. **Overlapping Subproblems**  
+    The recursive solution repeatedly solves the same subproblems. DP avoids this recomputation by storing results.  
+    _Contrast:_ Divide & Conquer (e.g., Merge Sort) has _independent_ subproblems; DP has _repeated_ ones.
+
+---
+##  Two Approaches of DP
+
+**Memoization (Top-Down):** Solve the problem recursively, but cache the result of each subproblem in a table the first time it is computed. On future calls with the same input, return the cached result directly instead of recomputing.
+
+**Tabulation (Bottom-Up):** Solve all subproblems iteratively starting from the smallest base case, filling a table from bottom to top until the final answer is reached. No recursion is involved.
+
+---
+
+##  Fibonacci Example
+
+The Fibonacci sequence is defined as:
+
+F(0) = 0, F(1) = 1, F(n) = F(n−1) + F(n−2) for n ≥ 2
+
+---
+
+### Without DP — Plain Recursion
+
+```
+fib(n):
+    if n <= 1: return n
+    return fib(n-1) + fib(n-2)
+```
+
+For fib(5), the call tree looks like this:
+
+```
+                fib(5)
+              /        \
+          fib(4)       fib(3)
+          /    \       /    \
+       fib(3) fib(2) fib(2) fib(1)
+       /   \
+   fib(2) fib(1)
+```
+
+fib(3) is computed 2 times, fib(2) is computed 3 times — massive redundancy as n grows.
+
+---
+
+### With DP — Tabulation (Bottom-Up)
+
+```
+fib(n):
+    table[0] = 0
+    table[1] = 1
+    for i from 2 to n:
+        table[i] = table[i-1] + table[i-2]
+    return table[n]
+```
+
+Step-by-step for n = 6:
+
+|i|0|1|2|3|4|5|6|
+|---|---|---|---|---|---|---|---|
+|F(i)|0|1|1|2|3|5|8|
+
+Each value is computed exactly once using the previously stored values. No repeated calls, no recursion stack overhead.
+
+---
+
+### 🔹 Complexity Comparison
+
+|Approach|Time Complexity|Space Complexity|Reason|
+|---|---|---|---|
+|Naive Recursion|`O(2ⁿ)`|`O(n)`|Repeated subproblem calls create a binary recursion tree|
+|DP (Memoization/Tabulation)|`O(n)`|`O(n)`|Each subproblem computed & stored once|
+|**Space-Optimized DP** (Fibonacci only)|`O(n)`|`O(1)`|Keep only last two values instead of full array|
+
