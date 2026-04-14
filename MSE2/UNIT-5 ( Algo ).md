@@ -161,8 +161,7 @@ A decision array d[v] records which next vertex minimizes the cost at each stage
 
 ---
 
-
-
+![[Pasted image 20260414133128.png]]
 ---
 
 ### Algorithm (Forward DP Approach)
@@ -189,57 +188,79 @@ FwdMultistage(G, k, n, c):
 
 ---
 
-### Solved Example
+Here is the full solution for the 4-stage network I created earlier, in the exact same simple format.
 
-**Graph:** 5 stages, 12 vertices. Source = 1, Sink = 12.
+---
 
-**Edges (Stage → Stage):**
+## Given Network (from previous problem)
 
-- Stage 4→5: (9,12)=4, (10,12)=2, (11,12)=5
-- Stage 3→4: (5,9)=6, (5,10)=5, (6,9)=6, (6,10)=3, (7,10)=4, (8,10)=6, (8,11)=5
-- Stage 2→3: (2,5)=2, (2,6)=4, (3,6)=2, (4,6)=2, (4,7)=7, (4,8)=2
-- Stage 1→2: (1,2)=9, (1,3)=7, (1,4)=3
+**Graph:** 4 stages, 10 vertices. Source = 1, Sink = 10.
 
-**Step 1 – Base Case (Stage 5):** cost(12) = 0
+**Edges:**
 
-**Step 2 – Stage 4:**
+- Stage 1→2: (1,2)=6, (1,3)=4
+- Stage 2→3: (2,4)=3, (2,5)=7, (2,6)=9, (3,4)=5, (3,5)=2, (3,6)=6
+- Stage 3→4: (4,7)=5, (4,8)=8, (5,7)=4, (5,8)=3, (6,7)=7, (6,8)=2
+- Stage 4→5: (7,10)=5, (8,10)=4
+
+---
+
+## Step 1 – Base Case (Stage 5)
+
+cost(10) = 0
+
+---
+
+## Step 2 – Stage 4
 
 |Vertex|Edges to sink|cost|d[]|
 |---|---|---|---|
-|9|9→12: 4+0=4|4|12|
-|10|10→12: 2+0=2|2|12|
-|11|11→12: 5+0=5|5|12|
+|7|7→10: 5+0=5|5|10|
+|8|8→10: 4+0=4|4|10|
 
-**Step 3 – Stage 3:**
+---
 
-|Vertex|Options|cost|d[]|
-|---|---|---|---|
-|5|5→9: 6+4=10; 5→10: 5+2=**7** ✓|7|10|
-|6|6→9: 6+4=10; 6→10: 3+2=**5** ✓|5|10|
-|7|7→10: 4+2=**6** ✓|6|10|
-|8|8→10: 6+2=**8** ✓; 8→11: 5+5=10|8|10|
-
-**Step 4 – Stage 2:**
+## Step 3 – Stage 3
 
 |Vertex|Options|cost|d[]|
 |---|---|---|---|
-|2|2→5: 2+7=9; 2→6: 4+5=9 (tie→5)|9|5|
-|3|3→6: 2+5=**7** ✓|7|6|
-|4|4→6: 2+5=**7** ✓; 4→7: 13; 4→8: 10|7|6|
+|4|4→7: 5+5=10; 4→8: 8+4=12|10|7|
+|5|5→7: 4+5=9; 5→8: 3+4=7 ✓|7|8|
+|6|6→7: 7+5=12; 6→8: 2+4=6 ✓|6|8|
 
-**Step 5 – Stage 1:**
+---
+
+## Step 4 – Stage 2
+
+|Vertex|Options|cost|d[]|
+|---|---|---|---|
+|2|2→4: 3+10=13; 2→5: 7+7=14; 2→6: 9+6=15|13|4|
+|3|3→4: 5+10=15; 3→5: 2+7=9 ✓; 3→6: 6+6=12|9|5|
+
+---
+
+## Step 5 – Stage 1
 
 |Options|cost|d[]|
 |---|---|---|
-|1→2: 9+9=18|—|—|
-|1→3: 7+7=14|—|—|
-|1→4: 3+7=**10** ✓|10|4|
+|1→2: 6+13=19|—|—|
+|1→3: 4+9=13 ✓|13|3|
 
-**Path Reconstruction** (following d[] array):
+---
 
-1 → 4 → 6 → 10 → 12
+## Path Reconstruction (following d[] array)
 
-**Minimum Cost = 3 + 2 + 3 + 2 = 10 ✓**
+**1 → 3 → 5 → 8 → 10**
+
+|Leg|Cost|
+|---|---|
+|1 → 3|4|
+|3 → 5|2|
+|5 → 8|3|
+|8 → 10|4|
+|**Total**|**13**|
+
+**Minimum Cost = 4 + 2 + 3 + 4 = 13 ✓**
 
 ---
 
