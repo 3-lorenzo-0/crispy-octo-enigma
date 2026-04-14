@@ -161,7 +161,7 @@ A decision array d[v] records which next vertex minimizes the cost at each stage
 
 ---
 
-![[Pasted image 20260414130637.png]]
+
 
 ---
 
