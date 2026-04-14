@@ -468,3 +468,83 @@ If a shorter path appears later due to a negative edge, Dijkstra **cannot update
 
 ![[Pasted image 20260414084141.png]]
 
+## Step 1: Initialization
+
+|Vertex|1|2|3|4|5|
+|---|---|---|---|---|---|
+|dist|0|∞|∞|∞|∞|
+
+---
+
+## 🔁 Iteration 1 (Relax all edges)
+
+- 1→2: 0+6 = 6 → dist[2]=6
+- 1→4: 0+7 = 7 → dist[4]=7
+- 2→3: 6+5 = 11 → dist[3]=11
+- 2→5: 6-4 = 2 → dist[5]=2
+- 3→2: 11-2 = 9 (no update, 6 smaller)
+- 4→3: 7-3 = 4 → dist[3]=4 (updated)
+- 4→5: 7+9 = 16 (no update)
+- 5→3: 2+7 = 9 (no update)
+
+|Vertex|1|2|3|4|5|
+|---|---|---|---|---|---|
+|dist|0|6|4|7|2|
+
+---
+
+## 🔁 Iteration 2
+
+- 3→2: 4-2 = 2 → dist[2]=2 (updated)
+- 2→5: 2-4 = -2 → dist[5]=-2
+- 5→3: -2+7 = 5 (no update, 4 smaller)
+
+|Vertex|1|2|3|4|5|
+|---|---|---|---|---|---|
+|dist|0|2|4|7|-2|
+
+---
+
+## 🔁 Iteration 3
+
+- 2→3: 2+5 = 7 (no update)
+- 2→5: 2-4 = -2 (same)
+
+👉 No major change
+
+---
+
+## 🔁 Iteration 4
+
+👉 No updates → Algorithm converged
+
+---
+
+## ✅ Final Shortest Distances
+
+|Vertex|Distance from 1|
+|---|---|
+|1|0|
+|2|2|
+|3|4|
+|4|7|
+|5|-2|
+
+---
+
+## ✅ Complexity
+
+### 🔹 Time Complexity
+
+- Best = Average = Worst = **O(V · E)**
+
+👉 All edges relaxed **V−1 times**
+
+---
+
+### 🔹 Space Complexity
+
+- Best = Average = Worst = **O(V)**
+
+👉 Only distance array used
+
