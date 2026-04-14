@@ -428,7 +428,6 @@ Best = Average = Worst = O(n · 2ⁿ), due to storage of DP table.
 
 # Single Source Shortest Path – **Bellman-Ford Algorithm**
 
----
 
 ##  Definition (Strong & Precise)
 
