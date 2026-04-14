@@ -143,3 +143,50 @@ Each value is computed exactly once using the previously stored values. No repea
 |DP (Memoization/Tabulation)|`O(n)`|`O(n)`|Each subproblem computed & stored once|
 |**Space-Optimized DP** (Fibonacci only)|`O(n)`|`O(1)`|Keep only last two values instead of full array|
 
+# Multistage Graph — Complete Explanation (Classic Exam Question)
+
+---
+
+## 1. Definition
+
+A Multistage Graph is a directed, weighted graph where:
+
+- The set of vertices is partitioned into k stages: Stage 1, Stage 2, ..., Stage k
+- Edges exist only from a vertex in stage i to a vertex in stage i+1 (no backward edges, no skip edges)
+- There is exactly one source vertex s in Stage 1 and one sink vertex t in Stage k
+- The goal is to find the minimum cost path from s to t passing through exactly one vertex per stage
+
+It models real-world decision-making problems where at each step you choose the best option to move to the next level.
+
+---
+
+## 2. Properties
+
+- Every path from source to sink passes through exactly k stages
+- Each edge has an associated cost c(u, v)
+- The problem satisfies both DP properties — optimal substructure and overlapping subproblems
+- The Principle of Optimality applies: the optimal path through stage i depends only on the optimal cost from that stage onward, not on how you reached it
+
+---
+
+## 3. Backward Approach — Algorithm
+
+In the backward approach, we compute the minimum cost from each vertex to the sink (destination), moving from the last stage toward the first.
+
+**Define:**
+
+- cost(i, v) = minimum cost from vertex v (in stage i) to the sink t
+- d(i, v) = the decision (next vertex chosen) at vertex v in stage i
+
+**Base Case:**
+
+- cost(k, t) = 0 (at the sink, cost is zero)
+
+**Recurrence:** For each vertex v in stage i (going from stage k−1 down to stage 1):
+
+cost(i, v) = min over all u in stage(i+1) { c(v, u) + cost(i+1, u) }
+
+d(i, v) = the vertex u that gave the minimum above
+
+**Path Reconstruction:** Start from source s → follow d(1,s) → d(2, next) → ... → sink t
+
