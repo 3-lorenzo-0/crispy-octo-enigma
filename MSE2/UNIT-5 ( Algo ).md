@@ -403,12 +403,7 @@ If there are 4 cities,
 
 Consider 4 cities with distance matrix:
 
-||0|1|2|3|
-|---|---|---|---|---|
-|0|0|10|15|20|
-|1|10|0|35|25|
-|2|15|35|0|30|
-|3|20|25|30|0|
+![[Pasted image 20260414083101.png]]
 
 👉 Using DP, we compute all subsets and paths.
 
