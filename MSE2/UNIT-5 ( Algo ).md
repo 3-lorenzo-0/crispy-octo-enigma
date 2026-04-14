@@ -184,3 +184,46 @@ It models real-world decision-making problems where at each step you choose the 
 ## 4. Numerical Example (5-Stage Graph)
 
 ![[Pasted image 20260414081011.png]]
+### **Solution (Backward Approach)**
+
+**Given:** Source=S, Sink=T
+
+**Step 1: Initialize**
+
+cost[T] = 0
+
+**Step 2: Stage 3 → T**
+
+cost[D] = 6 + 0 = 6
+
+cost[E] = 3 + 0 = 3
+
+cost[F] = 5 + 0 = 5
+
+**Step 3: Stage 2 → Stage 3**
+
+cost[A] = min(6+6, 3+3) = min(12, 6) = 6   [next: E]
+
+cost[B] = min(5+6, 4+3, 4+5) = min(11, 7, 9) = 7   [next: E]
+
+cost[C] = min(4+3, 3+5) = min(7, 8) = 7   [next: E]
+
+**Step 4: Stage 1 → Stage 2**
+
+cost[S] = min(2+6, 3+7, 4+7) = min(8, 10, 11) = 8   [next: A]
+
+---
+## Result
+
+- **Min Cost:** **8**
+- **Optimal Path:** S → A → E → T
+
+---
+### **Complexity**
+
+|Case|Time|Space|
+|---|---|---|
+|**Best**|O(n + e)|O(n)|
+|**Average**|O(n + e)|O(n)|
+|**Worst**|O(n²)|O(n)|
+
